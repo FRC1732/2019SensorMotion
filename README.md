@@ -13,5 +13,8 @@ This repository contains testing code for our autonoumous driving code.
 - Arcturn
 - Bezier math
 - Drivetrain Chacterization
+<<<<<<< HEAD
 - Photosensors
 - Integration of sensors
+=======
+>>>>>>> Improve Repo
