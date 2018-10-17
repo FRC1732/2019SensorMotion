@@ -123,8 +123,22 @@ public class DriveTrain extends Subsystem {
 >>>>>>> First commit
 	}
 
+	public double leftPos() {
+		return leftMaster.getSelectedSensorPosition(0);
+	}
+	public double leftVel() {
+		return leftMaster.getSelectedSensorVelocity(0);
+	}
+	public double rightPos() {
+		return rightMaster.getSelectedSensorPosition(0);
+	}
+	public double rightVel() {
+		return rightMaster.getSelectedSensorVelocity(0);
+	}
+
 	@Override
 	public void initDefaultCommand() {
+		// do nothing
 	}
 <<<<<<< HEAD
 
