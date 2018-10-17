@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -23,6 +24,16 @@ import frc.robot.util.Config;
  */
 public class DriveTrain extends Subsystem implements Sendable {
 
+=======
+import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.config.Config;
+
+/**
+ * Add your docs here.
+ */
+public class DriveTrain extends Subsystem {
+	
+>>>>>>> First commit
 	public static final String PATH = "drivetrain";
 	private final TalonSRX leftMaster;
 	private final TalonSRX left2;
@@ -30,10 +41,14 @@ public class DriveTrain extends Subsystem implements Sendable {
 	private final TalonSRX rightMaster;
 	private final TalonSRX right2;
 	private final TalonSRX right3;
+<<<<<<< HEAD
 
 	private final double encodersToInches;
 	private final double encodersVelToInchesSec;
 
+=======
+	
+>>>>>>> First commit
 	public DriveTrain(Config config) {
 		leftMaster = config.createTalon(PATH + ".left1");
 		left2 = config.createTalon(PATH + ".left2");
@@ -47,6 +62,7 @@ public class DriveTrain extends Subsystem implements Sendable {
 
 		right2.follow(rightMaster);
 		right3.follow(rightMaster);
+<<<<<<< HEAD
 
 		encodersToInches = config.getDouble(PATH + ".encoderConversion");
 		encodersVelToInchesSec = encodersToInches * 10;
@@ -56,6 +72,13 @@ public class DriveTrain extends Subsystem implements Sendable {
 	 * Sets the speed values as percentages
 	 * 
 	 * @param left  Left demand, [-1, 1]
+=======
+	}
+	
+	/**
+	 * Sets the speed values as percentages 
+	 * @param left Left demand, [-1, 1]
+>>>>>>> First commit
 	 * @param right Right demand, [-1, 1]
 	 */
 	public void set(double left, double right) {
@@ -68,6 +91,7 @@ public class DriveTrain extends Subsystem implements Sendable {
 	 */
 	public void stop() {
 		leftMaster.set(ControlMode.PercentOutput, 0);
+<<<<<<< HEAD
 		rightMaster.set(ControlMode.PercentOutput, 0);
 	}
 
@@ -95,11 +119,14 @@ public class DriveTrain extends Subsystem implements Sendable {
 	public void zero() {
 		leftMaster.setSelectedSensorPosition(0, 0, 0);
 		rightMaster.setSelectedSensorPosition(0, 0, 0);
+=======
+>>>>>>> First commit
 	}
 
 	@Override
 	public void initDefaultCommand() {
 	}
+<<<<<<< HEAD
 
 	@Override
 	public void initSendable(SendableBuilder builder) {
@@ -112,4 +139,6 @@ public class DriveTrain extends Subsystem implements Sendable {
 	public double getDistancePerPulse() {
 		return encodersToInches;
 	}
+=======
+>>>>>>> First commit
 }

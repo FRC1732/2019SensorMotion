@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+<<<<<<< HEAD
  
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,11 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.util.Config;
 import frc.robot.util.JoystickReader;
+=======
+
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.config.Config;
+>>>>>>> First commit
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -48,6 +54,7 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
+<<<<<<< HEAD
 	public final JoystickReader left;
 	public final JoystickReader right;
 	private Map<String, JoystickButton> buttonMap;
@@ -108,4 +115,19 @@ public class OI {
 		}
 	}
 
+=======
+	public final Joystick left;
+	public final Joystick right;
+	public OI(Config config) {
+		left = new Joystick(config.getInt(PATH+".left.port"));
+		right = new Joystick(config.getInt(PATH+".right.port"));
+	}
+
+	public double getLeft() {
+		return left.getY();
+	}
+	public double getRight() {
+		return right.getY();
+	}
+>>>>>>> First commit
 }

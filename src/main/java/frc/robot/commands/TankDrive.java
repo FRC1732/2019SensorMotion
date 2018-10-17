@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class TankDrive extends Command {
+<<<<<<< HEAD
 	private final Robot robot;
 
 	public TankDrive(Robot robot) {
@@ -33,11 +34,29 @@ public class TankDrive extends Command {
 		robot.getDrivetrain().set(robot.getOi().getLeft(), robot.getOi().getRight());
 	}
 
+=======
+	public TankDrive() {
+		requires(Robot.drivetrain);
+	}
+	
+	// Called just before this Command runs the first time
+	@Override
+	protected void initialize() {
+	}
+	
+	// Called repeatedly when this Command is scheduled to run
+	@Override
+	protected void execute() {
+		Robot.drivetrain.set(Robot.oi.getLeft(), Robot.oi.getRight());
+	}
+	
+>>>>>>> First commit
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
 		return false;
 	}
+<<<<<<< HEAD
 
 	// Called once after isFinished returns true
 	@Override
@@ -45,10 +64,23 @@ public class TankDrive extends Command {
 		robot.getDrivetrain().stop();
 	}
 
+=======
+	
+	// Called once after isFinished returns true
+	@Override
+	protected void end() {
+		Robot.drivetrain.stop();
+	}
+	
+>>>>>>> First commit
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	@Override
 	protected void interrupted() {
+<<<<<<< HEAD
 		robot.getDrivetrain().stop();
+=======
+		Robot.drivetrain.stop();
+>>>>>>> First commit
 	}
 }
