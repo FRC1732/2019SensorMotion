@@ -218,12 +218,12 @@ public class Config {
 			buttonMap.put(e.getKey(), new JoystickButton(stick, ((Number) e.getValue()).intValue()));
 		}
 		try {
-			stick.setAxis(getString(path+".axis"));
-		}catch(Exception e) {
+			stick.setAxis(getString(path + ".axis"));
+		} catch (Exception e) {
 		}
 		try {
-			stick.setInverted(getBool(path+".reversed"));
-		}catch(Exception e) {
+			stick.setInverted(getBool(path + ".reversed"));
+		} catch (Exception e) {
 		}
 		return stick;
 	}
@@ -233,8 +233,7 @@ public class Config {
 			Map<String, Object> configs = (Map<String, Object>) parser
 					.parse(new InputStreamReader(Config.class.getResourceAsStream("configs.json")));
 			String current = getPreference("config", (String) configs.get("default"));
-			SmartDashboard
-					.putData("Config", new ConfigChooser(current, (List<String>) configs.get("options")));
+			SmartDashboard.putData("Config", new ConfigChooser(current, (List<String>) configs.get("options")));
 			return new Config(current);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -264,12 +263,15 @@ public class Config {
 			this.defaultChoice = defaultChoice;
 			this.map = map;
 		}
+
 		private String getDefault() {
 			return defaultChoice;
 		}
+
 		private String[] getChoices() {
 			return map.toArray(new String[0]);
 		}
+
 		private void onEntry(EntryNotification e) {
 			try {
 				Map<String, Object> configs = (Map<String, Object>) parser
