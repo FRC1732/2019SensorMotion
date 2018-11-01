@@ -20,33 +20,33 @@ import frc.robot.util.Config;
 public class NavX extends Subsystem implements Sendable {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-
+	
 	private AHRS ahrs;
-
+	
 	public NavX(Config config) {
 		ahrs = config.createNavX("sensors.navx");
 	}
-
+	
 	public double getAngle() {
 		return ahrs.getYaw();
 	}
-
+	
 	public double getTotalAngle() {
 		return ahrs.getAngle();
 	}
-
+	
 	public void zero() {
 		ahrs.zeroYaw();
 	}
-
+	
 	@Override
 	public void initDefaultCommand() {
 	}
-
+	
 	public boolean isConnected() {
 		return ahrs.isConnected();
 	}
-
+	
 	@Override
 	public void initSendable(SendableBuilder builder) {
 		builder.setSmartDashboardType("Gyro");
