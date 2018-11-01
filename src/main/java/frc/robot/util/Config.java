@@ -29,12 +29,12 @@ public class Config {
 	private final String name;
 	private final Map<String, Object> configOBJ;
 	private int TIMEOUT;
-
+	
 	public Config(String name) {
 		this.name = name;
 		try {
 			configOBJ = (Map<String, Object>) parser
-					.parse(new InputStreamReader(Config.class.getResourceAsStream(name + ".json")));
+			        .parse(new InputStreamReader(Config.class.getResourceAsStream(name + ".json")));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("Config failed to parse");
@@ -45,11 +45,11 @@ public class Config {
 			TIMEOUT = 20;
 		}
 	}
-
+	
 	public String getName() {
 		return name;
 	}
-
+	
 	public Object get(String path) {
 		Object o = get(path, configOBJ);
 		if (o == null) {
@@ -57,7 +57,7 @@ public class Config {
 		}
 		return o;
 	}
-
+	
 	private int next(String s, char one, char two) {
 		int o = s.indexOf(one);
 		int t = s.indexOf(two);
@@ -71,7 +71,7 @@ public class Config {
 			return Math.min(o, t);
 		}
 	}
-
+	
 	private int next1(String s, char one, char two) {
 		int o = s.indexOf(one);
 		int t = s.indexOf(two);
@@ -85,7 +85,7 @@ public class Config {
 			return Math.min(o, t);
 		}
 	}
-
+	
 	private Object get(String path, Object config) {
 		if (path.length() == 0) {
 			return config;
@@ -99,7 +99,7 @@ public class Config {
 			return null;
 		}
 	}
-
+	
 	public int getInt(String path) {
 		Object n = get(path);
 		if (n instanceof Number) {
@@ -108,7 +108,7 @@ public class Config {
 			throw new RuntimeException("Path '" + path + "' is not an int in config " + name);
 		}
 	}
-
+	
 	public double getDouble(String path) {
 		Object n = get(path);
 		if (n instanceof Number) {
@@ -117,7 +117,7 @@ public class Config {
 			throw new RuntimeException("Path '" + path + "' is not a double in config " + name);
 		}
 	}
-
+	
 	public boolean getBool(String path) {
 		Object n = get(path);
 		if (n instanceof Boolean) {
@@ -126,7 +126,7 @@ public class Config {
 			throw new RuntimeException("Path '" + path + "' is not a boolean in config " + name);
 		}
 	}
-
+	
 	public String getString(String path) {
 		Object n = get(path);
 		if (n instanceof String) {
@@ -135,7 +135,7 @@ public class Config {
 			throw new RuntimeException("Path '" + path + "' is not a string in config " + name);
 		}
 	}
-
+	
 	public List<Object> getList(String path) {
 		Object n = get(path);
 		if (n instanceof List) {
@@ -144,7 +144,7 @@ public class Config {
 			throw new RuntimeException("Path '" + path + "' is not a list in config " + name);
 		}
 	}
-
+	
 	public Map<String, Object> getMap(String path) {
 		Object n = get(path);
 		if (n instanceof Map) {
@@ -153,7 +153,7 @@ public class Config {
 			throw new RuntimeException("Path '" + path + "' is not a map in config " + name);
 		}
 	}
-
+	
 	public TalonSRX createTalon(String path) {
 		TalonSRX motor = new TalonSRX(getInt(path + ".id"));
 		try {
@@ -187,7 +187,7 @@ public class Config {
 		}
 		return motor;
 	}
-
+	
 	public VictorSPX createVictor(String path) {
 		VictorSPX motor = new VictorSPX(getInt(path + ".id"));
 		try {
@@ -195,10 +195,9 @@ public class Config {
 		} catch (Exception e) {
 		}
 		motor.setNeutralMode(NeutralMode.Brake);
-
 		return motor;
 	}
-
+	
 	public AHRS createNavX(String path) {
 		AHRS out;
 		switch (getString(path + ".port")) {
@@ -210,7 +209,7 @@ public class Config {
 		}
 		return out;
 	}
-
+	
 	public JoystickReader createJoystick(String path, Map<String, JoystickButton> buttonMap) {
 		JoystickReader stick = new JoystickReader(getInt(path + ".port"));
 		Map<String, Object> map = getMap(path + ".buttons");
@@ -227,11 +226,11 @@ public class Config {
 		}
 		return stick;
 	}
-
+	
 	public static Config createConfig() {
 		try {
 			Map<String, Object> configs = (Map<String, Object>) parser
-					.parse(new InputStreamReader(Config.class.getResourceAsStream("configs.json")));
+			        .parse(new InputStreamReader(Config.class.getResourceAsStream("configs.json")));
 			String current = getPreference("config", (String) configs.get("default"));
 			SmartDashboard.putData("Config", new ConfigChooser(current, (List<String>) configs.get("options")));
 			return new Config(current);
@@ -240,51 +239,51 @@ public class Config {
 			throw new RuntimeException("configs.json failed to parse");
 		}
 	}
-
+	
 	private static final Preferences prefs = Preferences.userNodeForPackage(Config.class);
-
+	
 	private static String getPreference(String pref, String defualt) {
 		return prefs.get(pref, defualt);
 	}
-
+	
 	private static void setPreference(String pref, String value) {
 		prefs.put(pref, value);
 	}
-
+	
 	private static class ConfigChooser extends SendableBase implements Sendable {
 		private static final String DEFAULT = "default";
 		private static final String SELECTED = "selected";
 		private static final String OPTIONS = "options";
-
+		
 		private String defaultChoice;
 		private List<String> map;
-
+		
 		public ConfigChooser(String defaultChoice, List<String> map) {
 			this.defaultChoice = defaultChoice;
 			this.map = map;
 		}
-
+		
 		private String getDefault() {
 			return defaultChoice;
 		}
-
+		
 		private String[] getChoices() {
 			return map.toArray(new String[0]);
 		}
-
+		
 		private void onEntry(EntryNotification e) {
 			try {
 				Map<String, Object> configs = (Map<String, Object>) parser
-						.parse(new InputStreamReader(Config.class.getResourceAsStream("configs.json")));
+				        .parse(new InputStreamReader(Config.class.getResourceAsStream("configs.json")));
 				setPreference("config",
-						e.getEntry().getString(getPreference("config", (String) configs.get("default"))));
+				        e.getEntry().getString(getPreference("config", (String) configs.get("default"))));
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				throw new RuntimeException("configs.json failed to parse");
 			}
 			System.exit(0);
 		}
-
+		
 		@Override
 		public void initSendable(SendableBuilder builder) {
 			builder.setSmartDashboardType("String Chooser");
@@ -293,5 +292,5 @@ public class Config {
 			builder.getEntry(SELECTED).addListener(this::onEntry, EntryListenerFlags.kUpdate);
 		}
 	}
-
+	
 }
