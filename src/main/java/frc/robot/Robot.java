@@ -15,7 +15,6 @@ import frc.robot.commands.IntakeIn;
 import frc.robot.commands.IntakeOut;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.auto.DriveStraight;
-import frc.robot.commands.auto.Scare;
 import frc.robot.commands.auto.TurnToVisionTarget;
 import frc.robot.subsystems.DistanceSensor;
 import frc.robot.subsystems.DriveTrain;

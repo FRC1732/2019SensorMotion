@@ -66,8 +66,8 @@ public class ArcTurn extends Command implements Sendable {
 			robot.getDrivetrain().set(pid, innerPid);
 		}
 		
-		System.out.println(
-		        "e: " + getError() + ", pid: " + pid + ", i:" + (pid*MathUtil.innerSpeed(radius, robot.getROBOT_WIDTH())));
+		System.out.println("e: " + getError() + ", pid: " + pid + ", i:"
+		        + (pid * MathUtil.innerSpeed(radius, robot.getROBOT_WIDTH())));
 		lastT = System.currentTimeMillis() / 1000.0;
 	}
 	

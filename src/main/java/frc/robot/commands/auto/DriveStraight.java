@@ -15,7 +15,7 @@ import frc.robot.Robot;
 import frc.robot.util.Integrator;
 
 public class DriveStraight extends Command implements Sendable {
-
+	
 	public final double TOLERANCE = 0.5;
 	public double P = 0.05;// 0.0000001
 	public double I = 0;
@@ -23,7 +23,7 @@ public class DriveStraight extends Command implements Sendable {
 	public double F = 0.160;
 	private double distance;
 	private final Robot robot;
-
+	
 	public DriveStraight(Robot robot, double distance) {
 		this.distance = distance;
 		this.robot = robot;
@@ -31,17 +31,17 @@ public class DriveStraight extends Command implements Sendable {
 		this.inter = new Integrator();
 		timer = new Timer();
 	}
-
+	
 	private double end;
 	private Integrator inter;
 	private Timer timer;
 	private double lastT;
 	private double lastE;
-
+	
 	private double getError() {
 		return end - (robot.getDrivetrain().leftPos() + robot.getDrivetrain().rightPos()) / 2;
 	}
-
+	
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
@@ -54,7 +54,7 @@ public class DriveStraight extends Command implements Sendable {
 		lastT = 0;
 		lastE = getError();
 	}
-
+	
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
@@ -67,10 +67,10 @@ public class DriveStraight extends Command implements Sendable {
 		double pid = D * (deltaE / deltaT) + I * inter.addSection(error, deltaT) + P * error + F * Math.signum(error);
 		System.out.printf("%f -> %f\n", error, pid);
 		robot.getDrivetrain().set(clamp(pid), clamp(pid));
-
+		
 		System.out.println("e:" + getError() + ", p:" + pid);
 	}
-
+	
 	private double clamp(double d) {
 		if (d > 1) {
 			return 1;
@@ -80,7 +80,7 @@ public class DriveStraight extends Command implements Sendable {
 			return d;
 		}
 	}
-
+	
 	@Override
 	public void initSendable(SendableBuilder builder) {
 		builder.setSmartDashboardType("PIDController");
@@ -92,59 +92,59 @@ public class DriveStraight extends Command implements Sendable {
 		builder.addDoubleProperty("setpoint", this::getSetpoint, this::setSetpoint);
 		builder.addBooleanProperty("enabled", this::isEnabled, this::setEnabled);
 	}
-
+	
 	private void reset() {
 	}
-
+	
 	private double getP() {
 		return P;
 	}
-
+	
 	private double getI() {
 		return I;
 	}
-
+	
 	private double getD() {
 		return D;
 	}
-
+	
 	private double getF() {
 		return F;
 	}
-
+	
 	private void setP(double p) {
 		P = p;
 	}
-
+	
 	private void setI(double i) {
 		I = i;
 	}
-
+	
 	private void setD(double d) {
 		D = d;
 	}
-
+	
 	private void setF(double f) {
 		F = f;
 	}
-
+	
 	private double getSetpoint() {
 		return distance;
 	}
-
+	
 	private void setSetpoint(double a) {
 		distance = a;
 	}
-
+	
 	private boolean isEnabled() {
 		return false;
 	}
-
+	
 	private void setEnabled(boolean a) {
 	}
-
+	
 	private int time = 0;
-
+	
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
@@ -155,13 +155,13 @@ public class DriveStraight extends Command implements Sendable {
 		}
 		return time >= 2;
 	}
-
+	
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
 		robot.getDrivetrain().stop();
 	}
-
+	
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	@Override
