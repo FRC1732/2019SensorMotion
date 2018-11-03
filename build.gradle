@@ -66,3 +66,8 @@ test {
 	useJUnit()
 	failFast = false
 }
+
+test {
+	useJUnit()
+	failFast = false
+}
