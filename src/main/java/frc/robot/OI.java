@@ -28,47 +28,49 @@ public class OI {
 	// number it is.
 	// Joystick stick = new Joystick(port);
 	// Button button = new JoystickButton(stick, buttonNumber);
-
+	
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
 	// commands the same as any other Button.
-
+	
 	//// TRIGGERING COMMANDS WITH BUTTONS
 	// Once you have a button, it's trivial to bind it to a button in one of
 	// three ways:
-
+	
 	// Start the command when the button is pressed and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenPressed(new ExampleCommand());
-
+	
 	// Run the command while the button is being held down and interrupt it once
 	// the button is released.
 	// button.whileHeld(new ExampleCommand());
-
+	
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	public final JoystickReader left;
 	public final JoystickReader right;
 	private Map<String, JoystickButton> buttonMap;
-
+	
 	public OI(Config config) {
 		buttonMap = new HashMap<>();
 		left = config.createJoystick(PATH + ".left", buttonMap);
 		right = config.createJoystick(PATH + ".right", buttonMap);
 	}
-
+	
 	public double getLeft() {
 		return left.getValue();
 	}
-
+	
 	public double getRight() {
 		return right.getValue();
 	}
-
+	
 	/**
-	 * @param button  - The button to bind to
-	 * @param command to run while the button is pressed
+	 * @param button
+	 *                    - The button to bind to
+	 * @param command
+	 *                    to run while the button is pressed
 	 * @return the command
 	 */
 	public Command bindCommandWhile(String button, Command command) {
@@ -79,10 +81,12 @@ public class OI {
 			throw new RuntimeException(button + " is not a defined button in config");
 		}
 	}
-
+	
 	/**
-	 * @param button  - The button to bind to
-	 * @param command to run when the button is pressed
+	 * @param button
+	 *                    - The button to bind to
+	 * @param command
+	 *                    to run when the button is pressed
 	 * @return the command Runs command until it is canceled, e.g. by
 	 *         bindCommandRelease(String, command), or the isFinished returns true
 	 */
@@ -94,10 +98,12 @@ public class OI {
 			throw new RuntimeException(button + " is not a defined button in config");
 		}
 	}
-
+	
 	/**
-	 * @param button  - The button to bind to
-	 * @param command to cancel when the button is pressed
+	 * @param button
+	 *                    - The button to bind to
+	 * @param command
+	 *                    to cancel when the button is pressed
 	 * @return the command Cancels running command, e.g. a command started by
 	 *         bindCommandPress(String, command)
 	 */
@@ -109,4 +115,5 @@ public class OI {
 			throw new RuntimeException(button + " is not a defined button in config");
 		}
 	}
+	
 }
