@@ -7,8 +7,9 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
-import com.ctre.pheonix.motorcontrol.can.TalonSRX;
 import frc.robot.util.Config;
 
 /**
@@ -16,15 +17,17 @@ import frc.robot.util.Config;
  */
 public class Elevator extends Subsystem {
   private TalonSRX elevatorMotor;
-  public void set (int position) {
+  
+  public void set(int position) {
     System.out.println(position);
   }
-  public elevator (Config config) {
+  
+  public Elevator(Config config) {
     elevatorMotor = config.createTalon("elevator.motor");
   }
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-
+  
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
