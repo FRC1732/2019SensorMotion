@@ -13,6 +13,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Add your docs here.
  */
 public class Elevator extends Subsystem {
+  private TalonSRX elevatorMotor;
+  public void set (int position) {
+    
+  }
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 

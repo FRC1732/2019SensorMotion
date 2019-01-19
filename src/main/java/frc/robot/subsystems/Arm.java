@@ -13,6 +13,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Add your docs here.
  */
 public class Arm extends Subsystem {
+  private TalonSRX armMotor;
+  public void set (int position) {
+    
+  }
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
