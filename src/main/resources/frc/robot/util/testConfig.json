@@ -49,6 +49,26 @@
 			"reversed": false
 		}
 	},
+	"arm": {
+		"motor": {
+			"id": 12,
+			"reversed": false,
+			"sensor": {
+				"type": "quad",
+				"reversed": true
+			}
+		}
+	},
+	"elevator": {
+		"motor": {
+			"id": 10,
+			"reversed": false,
+			"sensor": {
+				"type": "quad",
+				"reversed": true
+			}
+		}
+	},
 	"sensors": {
 		"navx": {
 			"port": "kMXP"
