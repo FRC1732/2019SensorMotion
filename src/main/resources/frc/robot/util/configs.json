@@ -1,0 +1,7 @@
+{
+	"default": "testConfig",
+	"options": [
+		"testConfig",
+		"xboxConfig"
+	]
+}
