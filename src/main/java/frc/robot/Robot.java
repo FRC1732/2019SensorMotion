@@ -104,6 +104,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Front Photo", frontPhoto);
 		SmartDashboard.putData("Middle Photo", middlePhoto);
 		SmartDashboard.putData("Back Photo", backPhoto);
+		SmartDashboard.putData("Limelight", limelight);
 		System.out.println("Hello, World!");
 		
 		oi.bindCommandWhile("intakeIn", new IntakeIn(this));
