@@ -21,13 +21,13 @@ public class PhotoSensor extends Subsystem implements Sendable {
   // here. Call these from Commands.
   private DigitalInput di;
   private boolean inverted = false;
-  private final double transform = 1;
-
+  // private final double transform = 1;
+  
   public PhotoSensor(Config c, String sensor) {
     di = new DigitalInput(c.getInt("sensors." + sensor + ".port"));
     inverted = c.getBool("sensors." + sensor + ".inverted");
   }
-
+  
   public boolean getOn() {
     if (inverted) {
       return !di.get();
@@ -35,13 +35,13 @@ public class PhotoSensor extends Subsystem implements Sendable {
       return di.get();
     }
   }
-
+  
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
-
+  
   @Override
   public void initSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("Digital Input");
