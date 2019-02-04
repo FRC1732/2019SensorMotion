@@ -16,24 +16,8 @@
 	},
 	"drivetrain": {
 		"encoderConversion": 0.0019521852101349,
-		"left1": {
-			"id": 0,
-			"reversed": true,
-			"sensor": {
-				"type": "quad",
-				"reversed": true
-			}
-		},
-		"left2": {
-			"id": 1,
-			"reversed": true
-		},
-		"left3": {
-			"id": 2,
-			"reversed": true
-		},
 		"right1": {
-			"id": 15,
+			"id": 0,
 			"reversed": false,
 			"sensor": {
 				"type": "quad",
@@ -41,12 +25,28 @@
 			}
 		},
 		"right2": {
-			"id": 14,
+			"id": 1,
 			"reversed": false
 		},
 		"right3": {
-			"id": 13,
+			"id": 2,
 			"reversed": false
+		},
+		"left1": {
+			"id": 15,
+			"reversed": true,
+			"sensor": {
+				"type": "quad",
+				"reversed": true
+			}
+		},
+		"left2": {
+			"id": 14,
+			"reversed": true
+		},
+		"left3": {
+			"id": 13,
+			"reversed": true
 		}
 	},
 	"arm": {

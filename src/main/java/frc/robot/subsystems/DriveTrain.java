@@ -87,7 +87,7 @@ public class DriveTrain extends Subsystem implements Sendable {
 	}
 	
 	public double leftDist() {
-		return 0;
+		return leftMaster.getSelectedSensorPosition(0) * encodersToInches;
 	}
 	
 	public double rightDist() {

@@ -7,13 +7,25 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.DriveTrain;
+import edu.wpi.first.wpilibj.command.PIDCommand;
+import frc.robot.Robot;
 
-public class DriveWithEncoders extends Command {
+public class DriveWithEncoders extends PIDCommand {
   public DriveWithEncoders() {
+    super("", 0, 0, 0, 0.2);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    // requires(Robot.drivetrain);
+  }
+  
+  @Override
+  protected double returnPIDInput() {
+    return 0;
+  }
+  
+  @Override
+  protected void usePIDOutput(double output) {
+    
   }
   
   // Called just before this Command runs the first time
@@ -21,24 +33,20 @@ public class DriveWithEncoders extends Command {
   protected void initialize() {
   }
   
-  private DriveTrain drivetrain;
-  
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    drivetrain.set(1, 1);
   }
   
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return drivetrain.leftDist() > 100;
+    return false;
   }
   
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    drivetrain.set(0, 0);
   }
   
   // Called when another command which requires one or more of the same

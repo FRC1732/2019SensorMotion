@@ -19,8 +19,8 @@ import frc.robot.util.Config;
  * Add your docs here.
  */
 public class Limelight extends Subsystem implements Sendable {
-  private final double heightDiffrence = 17;
-  private final double angleCorrection = -3.6;
+  private final double heightDiffrence = 7.75;
+  private final double angleCorrection = 4.2891533288190184377210661681454 - 5.074424743652344;
   
   private double yAngle;
   private NetworkTableEntry yAngleNet;

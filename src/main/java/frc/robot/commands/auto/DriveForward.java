@@ -8,67 +8,75 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.Robot;
 import frc.robot.util.Integrator;
-import frc.robot.util.MathUtil;
 
-public class ArcTurn extends Command implements Sendable {
+public class DriveForward extends Command implements Sendable {
 	
-	public double TOLERANCE = 0;
-	public double P = 0.21;
+	public final double TOLERANCE = 0.5;
+	public double P = 0.00000005;// 0.0000001
 	public double I = 0;
 	public double D = 0;
-	public double F = 0;
-	private final double radius;
+	public double F = 0.160;
+	private double distance;
 	private final Robot robot;
-	private double angle;
-	private boolean reversed;
 	
-	public ArcTurn(Robot robot, double radius, double angle, boolean reversed) {
+	public DriveForward(Robot robot, double distance) {
+		this.distance = distance;
 		this.robot = robot;
-		this.radius = radius;
-		this.angle = angle;
-		this.reversed = reversed;
-		this.iError = new Integrator();
 		requires(robot.getDrivetrain());
+		this.inter = new Integrator();
+		timer = new Timer();
 	}
 	
-	private double end;
-	private Integrator iError;
+	private Integrator inter;
+	private Timer timer;
 	private double lastT;
+	private double lastE;
 	
 	private double getError() {
-		return end - robot.getNavx().getTotalAngle();
+		return robot.getLimelight().getRange() - distance;
 	}
 	
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		end = robot.getNavx().getTotalAngle() + angle;
-		iError.reset();
-		lastT = System.currentTimeMillis() / 1000.0;
+		System.out.println("Init Drivestraight");
+		System.out.printf("%f -> %f\n", getError(), 0.0);
+		inter.reset();
+		timer.reset();
+		timer.start();
+		lastT = 0;
+		lastE = getError();
 	}
 	
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		double error = getError();// * Math.signum(angle);
-		double d = D * (error - iError.getLast()) / (System.currentTimeMillis() / 1000.0 - lastT);
-		double i = I * iError.addSection(error, System.currentTimeMillis() / 1000.0 - lastT);
-		double p = P * error;
-		double pid = Math.abs(MathUtil.clamp(p + i + d + F)) * Math.signum(error);
-		double innerPid = pid * MathUtil.innerSpeed(radius, robot.getROBOT_WIDTH());
-		if (!reversed) {
-			robot.getDrivetrain().set(innerPid, pid);
-		} else {
-			robot.getDrivetrain().set(pid, innerPid);
-		}
+		double error = getError();
+		// error*= error * error;
+		double deltaT = timer.get() - lastT;
+		double deltaE = error - lastE;
+		lastT = timer.get();
+		lastE = error;
+		double pid = D * (deltaE / deltaT) + I * inter.addSection(error, deltaT) + P * error + F * Math.signum(error);
+		System.out.printf("%f -> %f\n", error, pid);
+		robot.getDrivetrain().set(clamp(pid), clamp(pid));
 		
-		System.out.println("e: " + getError() + ", pid: " + pid + ", i:"
-		        + (pid * MathUtil.innerSpeed(radius, robot.getROBOT_WIDTH())));
-		lastT = System.currentTimeMillis() / 1000.0;
+		System.out.println("e:" + getError() + ", p:" + pid);
+	}
+	
+	private double clamp(double d) {
+		if (d > 1) {
+			return 1;
+		} else if (d < -1) {
+			return -1;
+		} else {
+			return d;
+		}
 	}
 	
 	@Override
@@ -119,32 +127,31 @@ public class ArcTurn extends Command implements Sendable {
 	}
 	
 	private double getSetpoint() {
-		return angle;
+		return distance;
 	}
 	
 	private void setSetpoint(double a) {
-		angle = a;
+		distance = a;
 	}
 	
 	private boolean isEnabled() {
-		return reversed;
+		return false;
 	}
 	
 	private void setEnabled(boolean a) {
-		reversed = a;
 	}
 	
-	private int doneCounter = 0;
+	private int time = 0;
 	
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
 		if (Math.abs(getError()) < TOLERANCE) {
-			doneCounter++;
+			time++;
 		} else {
-			doneCounter--;
+			time = 0;
 		}
-		return doneCounter > 10;
+		return time >= 2;
 	}
 	
 	// Called once after isFinished returns true
