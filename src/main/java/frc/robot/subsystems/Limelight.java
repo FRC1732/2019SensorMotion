@@ -24,6 +24,8 @@ public class Limelight extends Subsystem implements Sendable {
   
   private double yAngle;
   private NetworkTableEntry yAngleNet;
+  private double xAngle;
+  private NetworkTableEntry xAngleNet;
   
   private double x1;
   private NetworkTableEntry x1Net;
@@ -38,6 +40,9 @@ public class Limelight extends Subsystem implements Sendable {
   private NetworkTableEntry y2Net;
   private double a2;
   private NetworkTableEntry a2Net;
+  
+  private boolean tracking = false;
+  private NetworkTableEntry validTargets;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   
@@ -58,25 +63,61 @@ public class Limelight extends Subsystem implements Sendable {
     y2Net = table.getEntry("ty1");
     a2Net = table.getEntry("ta1");
     yAngleNet = table.getEntry("ty");
+    xAngleNet = table.getEntry("tx");
+    validTargets = table.getEntry("tv");
   }
   
   @Override
   public void periodic() {
-    x1 = x1Net.getDouble(0);
-    y1 = y1Net.getDouble(0);
-    a1 = a1Net.getDouble(0);
-    x2 = x2Net.getDouble(0);
-    y2 = y2Net.getDouble(0);
-    a2 = a2Net.getDouble(0);
-    yAngle = yAngleNet.getDouble(0);
+    if (validTargets.getDouble(0) > 0) {
+      tracking = true;
+      x1 = x1Net.getDouble(0);
+      y1 = y1Net.getDouble(0);
+      a1 = a1Net.getDouble(0);
+      x2 = x2Net.getDouble(0);
+      y2 = y2Net.getDouble(0);
+      a2 = a2Net.getDouble(0);
+      yAngle = yAngleNet.getDouble(0);
+      xAngle = xAngleNet.getDouble(0);
+    } else {
+      tracking = false;
+    }
+    
+    // update range
+    range = heightDiffrence / Math.tan(Math.toRadians(yAngle + angleCorrection));
+    if (range < 0) {
+      double acc = 0;
+      for (double d : ranges) {
+        acc += d;
+      }
+      range = acc / ranges.length;
+    } else {
+      ranges[rangeIdx] = range;
+      rangeIdx = (rangeIdx + 1) % ranges.length;
+    }
   }
   
+  private double[] ranges = new double[10];
+  private int rangeIdx = 0;
+  private double range = 0;
+  
   public double getRange() {
-    return heightDiffrence / Math.tan(Math.toRadians(yAngle + angleCorrection));
+    return range;
   }
   
   public double getAngle() {
     return yAngle;
+  }
+  
+  public double getXAngle() {
+    return xAngle;
+  }
+  
+  /**
+   * @return the tracking
+   */
+  public boolean isTracking() {
+    return tracking;
   }
   
   @Override
@@ -88,5 +129,6 @@ public class Limelight extends Subsystem implements Sendable {
     builder.setSmartDashboardType("Limelight");
     builder.addDoubleProperty("Distance", this::getRange, null);
     builder.addDoubleProperty("Angle", this::getAngle, null);
+    builder.addBooleanProperty("Has Target", this::isTracking, null);
   }
 }

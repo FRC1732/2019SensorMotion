@@ -96,7 +96,7 @@ public class Robot extends TimedRobot {
 		oi = new OI(config);
 		reset();
 		// auton = new ArcTurn(this, 60, -90, false);
-		auton = new DriveForward(this, 100);
+		auton = new DriveForward(this, 40);
 		SmartDashboard.putData(navx);
 		SmartDashboard.putData((DriveForward) auton);
 		SmartDashboard.putData("Drivetrain", drivetrain);
@@ -155,8 +155,9 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		reset();
 		// new DriveStraight(100).start();
-		// auton.start();
-		new TurnToVisionTarget(this).start();
+		auton.start();
+		// new TurnToVisionTarget(this).start();
+		// new DriveForward(this, 20).start();
 	}
 	
 	/**
